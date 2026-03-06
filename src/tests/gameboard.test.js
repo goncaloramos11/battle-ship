@@ -53,3 +53,21 @@ test("Test failing to place a ship by Y Axis", () => {
   expect(board[1][0]).toBe("");
   expect(board[2][0]).toBe("");
 });
+
+test("Test receive attack miss", () => {
+  const gameboard = new Gameboard();
+  gameboard.receiveAttack(1, 1);
+
+  const board = gameboard.getBoard();
+
+  expect(board[1][1]).toBe("miss");
+});
+
+test("Test receive attack hit", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(2);
+  gameboard.placeShipXAxis(ship, 0, 0);
+  gameboard.receiveAttack(1, 0);
+
+  expect(1).toBe(ship.hitTimes);
+});

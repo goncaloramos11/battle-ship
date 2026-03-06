@@ -36,6 +36,15 @@ export class Gameboard {
     }
   }
 
+  receiveAttack(x, y) {
+    let target = this.board[y][x];
+    if (target === "") {
+      this.board[y][x] = "miss";
+    } else {
+      target.hit();
+    }
+  }
+
   getBoard() {
     return this.board;
   }
