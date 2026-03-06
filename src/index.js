@@ -1,4 +1,4 @@
 import "./style/structure.css";
-import gameBoard from "./views/gameBoardUi.js";
+import renderBoardController from "./controllers/gameBoardController.js";
 
-gameBoard();
+renderBoardController();
