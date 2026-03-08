@@ -1,4 +1,4 @@
 import "./style/structure.css";
-import renderBoardController from "./controllers/gameBoardController.js";
+import { manageGame } from "./controllers/gameController.js";
 
-renderBoardController();
+manageGame();

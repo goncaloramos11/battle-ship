@@ -6,7 +6,7 @@
 
 .container {
   display: grid;
-  grid-template-rows: 120px 1fr 60px;
+  grid-template-rows: 120px 1fr 60px 60px;
   height: 100vh;
 }
 
@@ -17,6 +17,10 @@
 .content {
   display: grid;
   grid-template-columns: 1fr 1fr;
+}
+
+.status {
+  text-align: center;
 }
 
 .footer {

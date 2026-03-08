@@ -1,5 +1,7 @@
 import "../style/board.css";
+import attackController from "../controllers/playerController.js";
 
+let gameOver = false;
 export default function renderFleet(player) {
   const content = document.querySelector(".content");
   const fleet = document.createElement("div");
@@ -17,6 +19,29 @@ export default function renderFleet(player) {
   content.appendChild(fleet);
 }
 
+export function renderStatus(player, type) {
+  const status = document.querySelector(".status");
+
+  switch (type) {
+    case "gameover":
+      status.textContent = `Game over! ${player.name} lost.`;
+      gameOver = true;
+      break;
+
+    case "sunk":
+      status.textContent = `${player.name}'s ship got sunk!`;
+      break;
+
+    case "hit":
+      status.textContent = `${player.name} got hit!`;
+      break;
+
+    case "miss":
+      status.textContent = `${player.name} ships have dodged!`;
+      break;
+  }
+}
+
 function renderBoard(player, board) {
   const totalSquares =
     player.gameboard.board.length * player.gameboard.board.length;
@@ -28,6 +53,17 @@ function renderBoard(player, board) {
     square.dataset.x = i % 10;
     renderShip(square.dataset.x, square.dataset.y, square, player);
     board.appendChild(square);
+
+    const x = square.dataset.x;
+    const y = square.dataset.y;
+    square.addEventListener("click", () => {
+      if (gameOver) return;
+      const result = attackController(player, x, y);
+
+      if (result === null) return;
+
+      square.classList.add(result ? "ship" : "miss");
+    });
   }
 }
 

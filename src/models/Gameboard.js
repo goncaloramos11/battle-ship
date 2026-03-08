@@ -12,6 +12,7 @@ export class Gameboard {
       ["", "", "", "", "", "", "", "", "", ""],
       ["", "", "", "", "", "", "", "", "", ""],
     ];
+    this.ships = [];
   }
 
   placeShipXAxis(ship, x, y) {
@@ -23,6 +24,7 @@ export class Gameboard {
         this.board[y][i] = ship;
       }
     }
+    this.ships.push(ship);
   }
 
   placeShipYAxis(ship, x, y) {
@@ -34,14 +36,17 @@ export class Gameboard {
         this.board[i][x] = ship;
       }
     }
+    this.ships.push(ship);
   }
 
   receiveAttack(x, y) {
     let target = this.board[y][x];
-    if (target === "") {
+    if (target === "" || target === "miss") {
       this.board[y][x] = "miss";
+      return false;
     } else {
       target.hit();
+      return true;
     }
   }
 
