@@ -4,35 +4,35 @@ import { Ship } from "../models/Ship.js";
 import { Player } from "../models/Player.js";
 import { renderStatus } from "../views/gameBoardUi.js";
 
-let totalSunk = 0;
-let currentTurn_receiveAttack = "NPC";
+let currentTarget = "NPC";
+let playerTarget = null;
 
 export function manageGame() {
   const { player, npc } = players();
-
+  playerTarget = player;
   renderBoardController(player, npc);
 }
 
 export function verifyAttackHandler(player, x, y) {
-  if (player.name !== currentTurn_receiveAttack) return null;
+  if (player.name !== currentTarget) return null;
 
   const result = player.gameboard.receiveAttack(x, y);
   manageStatus(player, result, x, y);
 
   switchTurn();
+
   return result;
 }
 
 function manageStatus(player, result, x, y) {
   if (result) {
     if (player.gameboard.board[y][x].isSunk()) {
-      totalSunk++;
       renderStatus(player, "sunk");
     } else {
       renderStatus(player, "hit");
     }
 
-    if (player.gameboard.ships.length === totalSunk) {
+    if (player.gameboard.ships.every((ship) => ship.isSunk())) {
       renderStatus(player, "gameover");
     }
   } else {
@@ -62,6 +62,14 @@ function players() {
 }
 
 function switchTurn() {
-  currentTurn_receiveAttack =
-    currentTurn_receiveAttack === "Player" ? "NPC" : "Player";
+  currentTarget = currentTarget === "Player" ? "NPC" : "Player";
+}
+
+export function NPCAttackHandler() {
+  let x = Math.floor(Math.random() * 10);
+  let y = Math.floor(Math.random() * 10);
+  const result = playerTarget.gameboard.receiveAttack(x, y);
+  manageStatus(playerTarget, result, x, y);
+  switchTurn();
+  return { result, x, y };
 }

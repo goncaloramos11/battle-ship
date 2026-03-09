@@ -1,5 +1,6 @@
 import "../style/board.css";
 import attackController from "../controllers/playerController.js";
+import npcAttackController from "../controllers/npcController.js";
 
 let gameOver = false;
 export default function renderFleet(player) {
@@ -37,7 +38,7 @@ export function renderStatus(player, type) {
       break;
 
     case "miss":
-      status.textContent = `${player.name} ships have dodged!`;
+      status.textContent = `${player.name} dodged the attack!`;
       break;
   }
 }
@@ -57,14 +58,25 @@ function renderBoard(player, board) {
     const x = square.dataset.x;
     const y = square.dataset.y;
     square.addEventListener("click", () => {
-      if (gameOver) return;
+      if (gameOver || player.name == "Player") return;
       const result = attackController(player, x, y);
 
       if (result === null) return;
 
       square.classList.add(result ? "ship" : "miss");
+
+      setTimeout(renderPlayerBoard, 1000);
     });
   }
+}
+
+function renderPlayerBoard() {
+  const { result, x, y } = npcAttackController();
+
+  const square = document.querySelector(
+    `.square[data-x="${x}"][data-y="${y}"]`,
+  );
+  square.classList.add(result ? "ship" : "miss");
 }
 
 function renderShip(x, y, square, player) {
