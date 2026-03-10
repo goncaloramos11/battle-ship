@@ -21,6 +21,7 @@ export function restartGameController() {
 export function verifyAttackHandler(player, x, y) {
   if (player.name !== currentTarget) return null;
 
+  if (player.gameboard.attacks.has(`${x},${y}`)) return null;
   const result = player.gameboard.receiveAttack(x, y);
   manageStatus(player, result, x, y);
 
@@ -83,8 +84,13 @@ function placeRandomShip(gameboard, ship) {
 }
 
 export function NPCAttackHandler() {
-  let x = Math.floor(Math.random() * 10);
-  let y = Math.floor(Math.random() * 10);
+  let x, y;
+
+  do {
+    x = Math.floor(Math.random() * 10);
+    y = Math.floor(Math.random() * 10);
+  } while (playerTarget.gameboard.attacks.has(`${x},${y}`));
+
   const result = playerTarget.gameboard.receiveAttack(x, y);
   manageStatus(playerTarget, result, x, y);
   switchTurn();

@@ -6,12 +6,16 @@
 
 .container {
   display: grid;
-  grid-template-rows: 120px 1fr 60px 60px 60px;
+  grid-template-rows: 100px 1fr 60px 60px;
   height: 100vh;
 }
 
 .header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: gray;
+  font-size: 60px;
 }
 
 .content {
@@ -31,8 +35,4 @@
   margin: 0 auto;
   width: 100px;
   height: 30px;
-}
-
-.footer {
-  background-color: gray;
 }

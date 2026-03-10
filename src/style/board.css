@@ -2,7 +2,6 @@
   display: grid;
   grid-template-columns: repeat(10, 50px);
   gap: 5px;
-  margin-top: 80px;
 }
 
 .fleet {
@@ -16,12 +15,75 @@
   height: 50px;
   border: 1px solid black;
   cursor: pointer;
+  background-color: rgba(0, 255, 255, 0.322);
 }
 
 .ship {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  font-family: "Courier New", Courier, monospace;
   background-color: red;
 }
 
 .miss {
   background-color: black;
+}
+
+.title,
+.title-npc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin-top: 20px;
+  width: 550px;
+  height: 30px;
+  border-radius: 10px;
+  font-size: 24px;
+}
+
+.title {
+  background-color: red;
+}
+
+.title-npc {
+  background-color: gray;
+}
+
+.letters > ul {
+  display: flex;
+  list-style: none;
+  margin-top: 60px;
+  margin-left: 40px;
+  font-size: 30px;
+  justify-content: space-between;
+  width: 540px;
+}
+
+.numbers > ul {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  font-size: 30px;
+  margin-right: 10px;
+  justify-content: space-between;
+  height: 545px;
+}
+
+.wrapper {
+  display: flex;
+}
+
+.letters > ul > li {
+  width: 50px;
+  text-align: center;
+}
+
+.numbers > ul > li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
 }

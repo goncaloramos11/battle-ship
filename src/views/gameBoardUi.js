@@ -5,19 +5,56 @@ import { restartGameController } from "../controllers/gameController.js";
 
 let gameOver = false;
 export default function renderFleet(player) {
+  const abc = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  const _123 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
   const content = document.querySelector(".content");
   const fleet = document.createElement("div");
   fleet.classList.add("fleet");
   const title = document.createElement("div");
-  title.classList.add("title");
+  const letters = document.createElement("div");
+  letters.classList.add("letters");
+  const numbers = document.createElement("div");
+  numbers.classList.add("numbers");
+
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("wrapper");
+
+  const ul_letters = document.createElement("ul");
+  letters.appendChild(ul_letters);
+  abc.map((item) => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    ul_letters.appendChild(li);
+  });
+
+  const ul_numbers = document.createElement("ul");
+  numbers.appendChild(ul_numbers);
+  _123.map((item) => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    ul_numbers.appendChild(li);
+  });
+
+  if (player.name === "NPC") {
+    title.classList.add("title-npc");
+  } else {
+    title.classList.add("title");
+  }
   title.textContent = player.name;
 
   const board = document.createElement("div");
   board.classList.add("board");
   renderBoard(player, board);
 
+  wrapper.appendChild(numbers);
+  wrapper.appendChild(board);
+
   fleet.appendChild(title);
-  fleet.appendChild(board);
+  fleet.appendChild(letters);
+
+  fleet.appendChild(wrapper);
+
   content.appendChild(fleet);
 }
 

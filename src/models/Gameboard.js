@@ -13,6 +13,7 @@ export class Gameboard {
       ["", "", "", "", "", "", "", "", "", ""],
     ];
     this.ships = [];
+    this.attacks = new Set();
   }
 
   placeShip(ship, x, y, direction) {
@@ -39,15 +40,24 @@ export class Gameboard {
   }
 
   receiveAttack(x, y) {
-    let target = this.board[y][x];
-    if (target === "miss") return;
+    const key = `${x},${y}`;
+
+    if (this.attacks.has(key)) return null;
+
+    this.attacks.add(key);
+
+    const target = this.board[y][x];
+
     if (target === "") {
-      this.board[y][x] = "miss";
       return false;
     } else {
       target.hit();
       return true;
     }
+  }
+
+  hasBeenAttacked(x, y) {
+    return this.attacks.has(`${x},${y}`);
   }
 
   getBoard() {
