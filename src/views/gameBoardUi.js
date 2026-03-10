@@ -1,6 +1,7 @@
 import "../style/board.css";
 import attackController from "../controllers/playerController.js";
 import npcAttackController from "../controllers/npcController.js";
+import { restartGameController } from "../controllers/gameController.js";
 
 let gameOver = false;
 export default function renderFleet(player) {
@@ -64,7 +65,7 @@ function renderBoard(player, board) {
       if (result === null) return;
 
       square.classList.add(result ? "ship" : "miss");
-
+      if (gameOver) return;
       setTimeout(renderPlayerBoard, 1000);
     });
   }
@@ -77,6 +78,9 @@ function renderPlayerBoard() {
     `.square[data-x="${x}"][data-y="${y}"]`,
   );
   square.classList.add(result ? "ship" : "miss");
+  if (result) {
+    square.textContent = "X";
+  }
 }
 
 function renderShip(x, y, square, player) {
@@ -90,4 +94,13 @@ function renderShip(x, y, square, player) {
 
 function verifyPlayer(player) {
   return player.name === "Player" ? true : false;
+}
+
+export function restartGame() {
+  const content = document.querySelector(".content");
+  const status = document.querySelector(".status");
+  status.textContent = "Guess to start the game!";
+  content.innerHTML = "";
+  gameOver = false;
+  restartGameController();
 }

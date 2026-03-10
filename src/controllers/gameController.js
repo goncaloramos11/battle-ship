@@ -13,6 +13,11 @@ export function manageGame() {
   renderBoardController(player, npc);
 }
 
+export function restartGameController() {
+  currentTarget = "NPC";
+  manageGame();
+}
+
 export function verifyAttackHandler(player, x, y) {
   if (player.name !== currentTarget) return null;
 
@@ -42,27 +47,39 @@ function manageStatus(player, result, x, y) {
 
 function players() {
   const gameboard1 = new Gameboard();
-  const ship_p1_1 = new Ship(4);
-  const ship_p1_2 = new Ship(1);
-
-  gameboard1.placeShipXAxis(ship_p1_1, 0, 0);
-  gameboard1.placeShipYAxis(ship_p1_2, 9, 7);
-
   const gameboard2 = new Gameboard();
-  const ship_p2_1 = new Ship(3);
-  const ship_p2_2 = new Ship(2);
-
   const player = new Player(gameboard1, "Player");
   const npc = new Player(gameboard2, "NPC");
 
-  gameboard2.placeShipXAxis(ship_p2_1, 0, 0);
-  gameboard2.placeShipYAxis(ship_p2_2, 9, 7);
+  const max_length = 5;
+
+  for (let i = 1; i <= max_length; i++) {
+    const ship = new Ship(i);
+    placeRandomShip(gameboard1, ship);
+  }
+
+  for (let i = 1; i <= max_length; i++) {
+    const ship = new Ship(i);
+    placeRandomShip(gameboard2, ship);
+  }
 
   return { player, npc };
 }
 
 function switchTurn() {
   currentTarget = currentTarget === "Player" ? "NPC" : "Player";
+}
+
+function placeRandomShip(gameboard, ship) {
+  let placed = false;
+
+  while (!placed) {
+    const x = Math.floor(Math.random() * 10);
+    const y = Math.floor(Math.random() * 10);
+    const direction = Math.random() < 0.5 ? "x" : "y";
+
+    placed = gameboard.placeShip(ship, x, y, direction);
+  }
 }
 
 export function NPCAttackHandler() {
